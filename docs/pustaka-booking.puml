@@ -8,7 +8,7 @@ entity user {
     * email VARCHAR(128)
     * image VARCHAR(128)
     * password VARCHAR(256)
-    * role_id INT(11)
+    * role_id INT(11) <<FK>> 🔑
     * is_active INT(1)
     * tanggal_input INT(11)
 }
@@ -28,7 +28,7 @@ entity buku {
     * id INT(11) <<PK>> AUTO_INCREMENT
     --
     * judul_buku VARCHAR(128)
-    * id_kategori INT(11)
+    * id_kategori INT(11) <<FK>> 🔑
     * pengarang VARCHAR(64)
     * penerbit VARCHAR(64)
     * tahun_terbit YEAR(4)
@@ -43,7 +43,7 @@ entity temp {
     * id INT(11) <<PK>> AUTO_INCREMENT
     --
       tgl_booking DATETIME
-    * id_user VARCHAR(12)
+    * id_user VARCHAR(12) <<FK>> 🔑
       email_user VARCHAR(128)
       id_buku INT(11)
     * judul_buku VARCHAR(255)
@@ -58,38 +58,45 @@ entity booking {
     --
     * tgl_booking DATE
     * batas_ambil DATE
-    * id_user INT(11)
+    * id_user INT(11) <<FK>> 🔑
 }
 
 entity booking_detail {
     * id INT(11) <<PK>>
     --
-    * id_booking VARCHAR(12)
-    * id_buku INT(11)
+    * id_booking VARCHAR(12) <<FK>> 🔑
+    * id_buku INT(11) <<FK>> 🔑
 }
 
 entity pinjam {
     * no_pinjam VARCHAR(12) <<PK>>
     --
     * tgl_pinjam DATE
-    * id_booking VARCHAR(12)
-    * id_user INT(11)
+    * id_booking VARCHAR(12) <<FK>> 🔑
+    * id_user INT(11) <<FK>> 🔑
     * tgl_kembali DATE
     * tgl_pengembalian DATE
-    * status enum("Pinjam", "Kembali") pinjam
+    * status enum("Pinjam", "Kembali") Pinjam
     * total_denda INT(11)
 }
 
 entity detail_pinjam {
-    * no_pinjam VARCHAR(12)
+    * no_pinjam VARCHAR(12) <<PK>> <<FK>> 🔑
     --
-    * id_buku INT(11)
+    * id_buku INT(11) <<FK>> 🔑
     * denda INT(11)
 }
 
-user ||--|{ role : has many
+user ||--|{ role : have role
 user ||--|| booking : have
+user ||--|{ pinjam : have
+booking ||--|{ pinjam : have
+booking }|--|| booking_detail : contain
+booking }|--|| temp : contain
+buku }|--|| booking_detail : contain
+buku }|--|| detail_pinjam : have
 
-buku ||--|| kategori : has one
+buku }|--|| kategori : has one
+pinjam ||--|| detail_pinjam : contain
 
 @enduml
