@@ -1,0 +1,95 @@
+@startuml pustaka-booking
+
+entity user {
+    * id INT(11) <<PK>> AUTO INCREMENT
+    --
+    * nama VARCHAR(128) 
+    * alamat TEXT
+    * email VARCHAR(128)
+    * image VARCHAR(128)
+    * password VARCHAR(256)
+    * role_id INT(11)
+    * is_active INT(1)
+    * tanggal_input INT(11)
+}
+
+entity role {
+    * id INT(11)
+    * role VARCHAR(128)
+}
+
+entity kategori {
+    * id INT(11) <<PK>> AUTO_INCREMENT
+    --
+    * kategori VARCHAR(45)
+}
+
+entity buku {
+    * id INT(11) <<PK>> AUTO_INCREMENT
+    --
+    * judul_buku VARCHAR(128)
+    * id_kategori INT(11)
+    * pengarang VARCHAR(64)
+    * penerbit VARCHAR(64)
+    * tahun_terbit YEAR(4)
+    * isbn VARCHAR(64)
+    * stok INT(11)
+    * dipinjam INT(11)
+    * dibooking INT(11)
+      image VARCHAR(256) book-default-cover.jpg
+}
+
+entity temp {
+    * id INT(11) <<PK>> AUTO_INCREMENT
+    --
+      tgl_booking DATETIME
+    * id_user VARCHAR(12)
+      email_user VARCHAR(128)
+      id_buku INT(11)
+    * judul_buku VARCHAR(255)
+    * image VARCHAR(255)
+    * penulis VARCHAR(128)
+    * penerbit VARCHAR(128)
+    * tahun_terbit YEAR(4)
+}
+
+entity booking {
+    * id_booking VARCHAR(12) <<PK>>
+    --
+    * tgl_booking DATE
+    * batas_ambil DATE
+    * id_user INT(11)
+}
+
+entity booking_detail {
+    * id INT(11) <<PK>>
+    --
+    * id_booking VARCHAR(12)
+    * id_buku INT(11)
+}
+
+entity pinjam {
+    * no_pinjam VARCHAR(12) <<PK>>
+    --
+    * tgl_pinjam DATE
+    * id_booking VARCHAR(12)
+    * id_user INT(11)
+    * tgl_kembali DATE
+    * tgl_pengembalian DATE
+    * status enum("Pinjam", "Kembali") pinjam
+    * total_denda INT(11)
+}
+
+entity detail_pinjam {
+    * no_pinjam VARCHAR(12)
+    --
+    * id_buku INT(11)
+    * denda INT(11)
+}
+
+user ||--|{ role : has many
+user ||--|| booking : have
+
+buku ||--|| kategori : has one
+
+@enduml
