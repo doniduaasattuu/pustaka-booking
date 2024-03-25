@@ -1,0 +1,1 @@
+<label class="form-label fw-semibold" for="<?= $id ?>"><?= $label ?></label>

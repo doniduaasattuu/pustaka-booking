@@ -1,7 +1,13 @@
 <?= $this->extend('layouts/guest') ?>
 
 <?= $this->section('content') ?>
-<p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea voluptas nemo nam autem facere cupiditate alias, excepturi laudantium architecto similique magni officiis ad officia corporis nobis id esse. Quibusdam, ullam?
-</p>
+<form action="login" method="POST">
+
+    <h3 class="mb-4 fw-semibold"><?= $title ?></h3>
+
+    <?= view('components/input-email', ['id' => 'email', 'name' => 'email', 'label' => 'Email']); ?>
+    <?= view('components/input-password', ['id' => 'password', 'name' => 'password', 'label' => 'Password']); ?>
+    <?= view('components/button-primary', ['content' => 'Submit']); ?>
+
+</form>
 <?= $this->endSection() ?>
